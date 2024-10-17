@@ -1,4 +1,4 @@
 .idea
-./Backend/mvnw
-./Backend/mvnw.cmd
-./Backend/.mvn
+/Backend/mvnw
+/Backend/mvnw.cmd
+/Backend/.mvn
