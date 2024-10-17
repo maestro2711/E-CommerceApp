@@ -1,6 +1,7 @@
 package de.neuefische.backend.services;
 
 import de.neuefische.backend.entity.Product;
+import de.neuefische.backend.entity.ProductDTO;
 import de.neuefische.backend.repositories.ProductRepository;
 import lombok.*;
 import org.springframework.stereotype.Service;
@@ -27,15 +28,14 @@ public class ProductService {
                 .orElseThrow(()->new RuntimeException("Product with id: " +id+ " not Found"));
     }
 
-    public Product addProduct(Product product) {
-        // Erstellen eines neuen Product-Records mit einer generierten ID
+    public Product addProduct(ProductDTO product) {
+        // Erstellen eines neuen Product mit einer generierten ID
         Product newProduct = new Product(
                 UUID.randomUUID().toString(),
-                product.name(),
+                product.title(),
                 product.description(),
                 product.category(),
                 product.price(),
-                product.stock(),
                 product.image()
         );
         return productRepository.save(newProduct);
@@ -52,11 +52,10 @@ public class ProductService {
 
                   Product productToUpdate = new Product(
                           updatedProduct.id(), // Behalten der ursprünglichen ID
-                          updatedProduct.name(),
+                          updatedProduct.title(),
                           updatedProduct.description(),
                           updatedProduct.category(),
                           updatedProduct.price(),
-                          updatedProduct.stock(),
                           updatedProduct.image()
                   );
 

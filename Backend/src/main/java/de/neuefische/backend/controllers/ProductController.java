@@ -2,6 +2,7 @@ package de.neuefische.backend.controllers;
 
 
 import de.neuefische.backend.entity.Product;
+import de.neuefische.backend.entity.ProductDTO;
 import de.neuefische.backend.services.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public void addProduct(@RequestBody Product product) {
+    public void addProduct(@RequestBody ProductDTO product) {
         productService.addProduct(product);
     }
 
