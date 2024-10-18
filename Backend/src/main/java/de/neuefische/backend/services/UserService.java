@@ -41,4 +41,13 @@ public class UserService {
         return user;
     }
 
+    public void deleteUser(String username) {
+        User user = userRepository.findByUsername(username);
+        if(user == null) {
+            throw new IllegalArgumentException("User not found");
+
+        }
+        userRepository.delete(user);
+    }
+
 }
