@@ -1,12 +1,15 @@
 package de.neuefische.backend.repositories;
 
 import de.neuefische.backend.entity.Product;
+import de.neuefische.backend.enums.Category;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends MongoRepository<Product, String> {
-    List<Product> findByCategory(String category);
+    List<Product> findByCategory(Category category);
+    //Optional<Product> findById(String id);
 }
