@@ -3,6 +3,7 @@ package de.neuefische.backend.controllers;
 
 import de.neuefische.backend.entity.Product;
 import de.neuefische.backend.entity.ProductDTO;
+import de.neuefische.backend.enums.Category;
 import de.neuefische.backend.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -10,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/products")
@@ -24,15 +26,16 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{productId}")
     @Operation(summary = "Produkt nach ID abrufen", description = "Gibt die Details eines bestimmten Produkts zurück, basierend auf der Produkt-ID.")
-    public Product getProductById(@PathVariable String id) {
-        return productService.getProductById(id);
+    public Product getProductById(@PathVariable String productId) {
+
+        return productService.getProductById(productId);
     }
 
     @GetMapping("/category/{category}")
     @Operation(summary = " Produkt nach Kategorien suchen", description = "Gibt die Details eines bestimmten Produkts zurück, basierend auf der category.")
-    public List<Product> getProductsByCategory(@PathVariable String category) {
+    public List<Product> getProductsByCategory(@PathVariable Category category) {
         return productService.getProductsByCategory(category);
     }
 
@@ -42,15 +45,16 @@ public class ProductController {
         productService.addProduct(product);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{productId}")
     @Operation(summary = "Produkt aktualisieren", description = "Aktualisiert ein vorhandenes Produkt basierend auf der Produkt-ID.")
-    public void updateProduct(@PathVariable String id, @RequestBody Product product) {
-        productService.updateProduct(id, product);
+    public void updateProduct(@PathVariable String productId, @RequestBody Product product) {
+        productService.updateProduct(productId, product);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{productId}")
     @Operation(summary = "Produkt löschen", description = "Löscht ein Produkt basierend auf der Produkt-ID.")
-    public void deleteProduct(@PathVariable String id) {
-        productService.deleteProduct(id);
+    public void deleteProduct(@PathVariable String productId) {
+
+        productService.deleteProduct(productId);
     }
 }

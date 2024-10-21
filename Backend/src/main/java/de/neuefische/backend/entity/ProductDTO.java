@@ -1,10 +1,13 @@
 package de.neuefische.backend.entity;
 
+import de.neuefische.backend.enums.Category;
+
 import java.math.BigDecimal;
 
-public record ProductDTO(String category,
+public record ProductDTO(
                          String title,
                          String description,
-                         BigDecimal price,
+                         Category category,
+                         double price,
                          String image) {
 }

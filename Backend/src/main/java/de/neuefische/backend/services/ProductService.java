@@ -2,12 +2,14 @@ package de.neuefische.backend.services;
 
 import de.neuefische.backend.entity.Product;
 import de.neuefische.backend.entity.ProductDTO;
+import de.neuefische.backend.enums.Category;
 import de.neuefische.backend.repositories.ProductRepository;
 import lombok.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -18,40 +20,44 @@ import java.util.UUID;
 @Setter
 public class ProductService {
     private final ProductRepository productRepository;
+    private final ServiceId serviceId;
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
 
     }
-    public Product getProductById(String id) {
-        return productRepository.findById(id)
-                .orElseThrow(()->new RuntimeException("Product with id: " +id+ " not Found"));
+    public Product getProductById(String productId) {
+        return productRepository.findById(productId).orElse(null);
+
+
     }
 
     public Product addProduct(ProductDTO product) {
-        // Erstellen eines neuen Product mit einer generierten ID
+        String productId = serviceId.getServiceId();
         Product newProduct = new Product(
-                UUID.randomUUID().toString(),
+                productId,
                 product.title(),
                 product.description(),
                 product.category(),
                 product.price(),
                 product.image()
         );
-        return productRepository.save(newProduct);
+         productRepository.save(newProduct);
+         return productRepository.findById(productId).orElse(null);
     }
 
-    public List<Product> getProductsByCategory(String category) {
-        return productRepository.findByCategory(category);
+    public List<Product> getProductsByCategory(Category category) {
+
+        return productRepository.findByCategory( category);
     }
 
-    public Product updateProduct(String id, Product updatedProduct) {
-        Product updated = productRepository.findById(id)
-                .orElseThrow(()->new RuntimeException("Product with id: " +id + " not Found"));
+    public Product updateProduct(String productId, Product updatedProduct) {
+        Product updated = productRepository.findById(productId)
+                .orElseThrow(()->new RuntimeException("Product with id: " +productId + " not Found"));
             // Erstellen eines neuen Product mit aktualisierten Werten
 
                   Product productToUpdate = new Product(
-                          updatedProduct.id(), // Behalten der ursprünglichen ID
+                          updatedProduct.productId(), // Behalten der ursprünglichen ID
                           updatedProduct.title(),
                           updatedProduct.description(),
                           updatedProduct.category(),
@@ -62,8 +68,9 @@ public class ProductService {
             return productRepository.save(productToUpdate);
         }
 
-        public void deleteProduct(String id) {
-        productRepository.deleteById(id);
+        public String deleteProduct(String productId) {
+        productRepository.deleteById(productId);
+            return productId;
         }
     }
 

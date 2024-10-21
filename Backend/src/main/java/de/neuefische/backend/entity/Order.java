@@ -5,7 +5,7 @@ import java.util.List;
 
 public record Order(String userId,
                     List<CartItem> items,
-                    BigDecimal totalPrice,
+                    double totalPrice,
                     String paymentStatus,
                     String deliveryAddress
 
