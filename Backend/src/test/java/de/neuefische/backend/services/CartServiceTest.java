@@ -2,13 +2,11 @@ package de.neuefische.backend.services;
 
 import de.neuefische.backend.entity.Cart;
 import de.neuefische.backend.entity.CartItem;
-import de.neuefische.backend.entity.Product;
-import de.neuefische.backend.enums.Category;
 import de.neuefische.backend.repositories.CartRepository;
-import de.neuefische.backend.repositories.ProductRepository;
+
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
