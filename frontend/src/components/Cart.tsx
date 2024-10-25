@@ -25,6 +25,7 @@ const Cart: React.FC = () => {
                 console.log("Error fetching cart:" ,error)
             })
 
+
     }, [username]);
     const handleUpdateQuantity = (productId:number,quantity:number) => {
         if (!username) return

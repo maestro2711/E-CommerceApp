@@ -58,9 +58,8 @@ public class CartService {
 
 
         }
-        System.out.println(cart);
-     /*   cart.items().removeIf(item ->item.productId().equals(updateItem.productId()));
-        cart.items().add(updateItem);*/
+
+
         return cartRepository.save(cart);
     }
 

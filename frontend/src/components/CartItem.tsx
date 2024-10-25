@@ -8,6 +8,7 @@ interface Props {
     onUpdateQuantity:(productId:number,quantity:number) => void;
 }
 
+
 const CartItem :React.FC <Props> =({item,onRemove,onUpdateQuantity}) => {
 
     return(
