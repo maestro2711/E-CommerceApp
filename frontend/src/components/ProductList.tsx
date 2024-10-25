@@ -18,13 +18,17 @@ export interface Product{
     price:number;
     category:string
 }
+interface ProductListProps {
+    onAddToCart: (quantity: number) => void;  // Prop zum Hinzufügen von Artikeln zum Warenkorb
+}
 
-const ProductList: React.FC = () => {
+const ProductList: React.FC <ProductListProps>= ({onAddToCart}) => {
     const [products, setProducts] = useState<Product[]>([]);
     // der Benutzername aus dm Localstorage abrufen
     const username=localStorage.getItem("username");
 
     useEffect(() => {
+
         //hole die Produkte von der FakestoreApi
         axios.get('https://fakestoreapi.com/products')
             .then((response)=>{
@@ -36,6 +40,7 @@ const ProductList: React.FC = () => {
     }, []);
 
     const handleAddToCart = (product:Product) => {
+        onAddToCart(1);  // Füge einen Artikel zum Warenkorb hinzu (die Menge ist 1)
         if (!username){
             alert("please login to add items to the cart");
             return;
@@ -53,6 +58,7 @@ const ProductList: React.FC = () => {
                 alert("Product Added to cart");
             })
             .catch((error)=>{
+                alert("product already exist")
                 console.log("Error adding product to cart", error);
             })
     }
@@ -79,9 +85,9 @@ const ProductList: React.FC = () => {
                                     {product.title}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary">
-                                    {product.description.length > 100
-                                        ? product.description.substring(0, 100) + '...'
-                                        : product.description}
+                                    { product.description.length>100
+                                    ?product.description.substring(0,100) + '...'
+                                    :product.description}
                                 </Typography>
                                 <Typography variant="h5" component="div" style={{ marginTop: '10px' }}>
                                     {product.price}€
