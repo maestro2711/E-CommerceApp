@@ -21,6 +21,7 @@ const App: React.FC = () => {
     const handleAddToCart = (quantity: number) => {
         setCartItemCount(cartItemCount + quantity);
     };
+
     return (
      <>
          <nav style={{backgroundColor:'lightblue'}}>

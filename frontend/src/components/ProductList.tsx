@@ -54,6 +54,7 @@ const ProductList: React.FC <ProductListProps>= ({onAddToCart}) => {
         }
 
 
+
         axios.post(`api/cart/${username}/add`,cartItem)
             .then(()=>{
                 alert("Product Added to cart");

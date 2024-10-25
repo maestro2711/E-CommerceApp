@@ -9,6 +9,7 @@ interface Props {
 }
 
 
+
 const CartItem :React.FC <Props> =({item,onRemove,onUpdateQuantity}) => {
 
     return(
