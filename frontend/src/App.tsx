@@ -6,7 +6,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import { Route,  Routes} from "react-router-dom";
 import ProductItem from "./components/ProductItem.tsx";
-import {Badge, IconButton, Link} from "@mui/material";
+import {Badge, Divider, IconButton, Link} from "@mui/material";
 import Footer from "./pages/Footer.tsx";
 import UserRegistration from "./components/UserRegistration.tsx";
 import UserLogin from "./components/UserLogin.tsx";
@@ -42,11 +42,13 @@ const App: React.FC = () => {
              </div>
 
          </nav>
+         <Divider />
          <div>
              <h1>Willkommen in unserem spannenden Shop 2024</h1>
              <p>Entdecken Sie unsere neuesten Styles für den Herbst</p>
 
          </div>
+
 
 
          {/*<Navigation/>*/}

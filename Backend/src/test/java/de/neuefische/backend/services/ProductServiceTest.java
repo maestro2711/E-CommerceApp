@@ -37,6 +37,7 @@ class ProductServiceTest {
 
         }
 
+
         @Test
     public void test_should_Return_All_Product_When_Call() {
             Product expected= new Product(UUID.randomUUID().toString(),"mens","herbst kleid",Category.Women,24.5,"klid.jepeg");
@@ -46,6 +47,8 @@ class ProductServiceTest {
             assertNotNull(actual);
             assertEquals(expected,actual.get(0));
         }
+
+
 
         @Test
     public void test_should_Delete_Product_When_Call_With_ID() {
@@ -58,6 +61,7 @@ class ProductServiceTest {
 
         }
 
+
         @Test
     public void test_should_get_Product_When_Call_With_ID() {
         String expectedId= UUID.randomUUID().toString();
@@ -69,6 +73,7 @@ class ProductServiceTest {
             assertNotNull(actual);
             assertEquals(expected,actual);
         }
+
 
 
 
