@@ -7,12 +7,12 @@ import de.neuefische.backend.repositories.CartRepository;
 import org.junit.jupiter.api.Test;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class CartServiceTest {
     private final CartRepository cartRepo = mock(CartRepository.class);
@@ -22,7 +22,7 @@ class CartServiceTest {
 
     public void test_shoul_Add_Item_Cart_When_Call() {
         //Given
-        Cart expected = new Cart("retes", List.of(new CartItem("12ab","pullover","pull.jpeg",24,5)));
+        Cart expected = new Cart("retes",null, List.of(new CartItem("12ab","pullover","pull.jpeg",24,5)));
         //THEN
 
         when(cartRepo.save(any(Cart.class))).thenReturn(expected);
@@ -32,15 +32,32 @@ class CartServiceTest {
 
     }
 
+
     @Test
     public void test_should_Return_Cart_When_Call_With_Id() {
-        String expectedId = "retes";
-        Cart expected = new Cart(expectedId,List.of(new CartItem("12b","jupe","jupe.jpeg",54,4)));
-        when(cartRepo.findByUserId(expectedId)).thenReturn(expected);
+        // Given
+        String expectedUserId = "retes";
+        String cartId = new ServiceId().getServiceId(); // Generiere eine ID
+        Cart expected = new Cart(
+                expectedUserId,
+                cartId,
+                List.of(new CartItem(null, "12b", "jupe.jpeg", 54, 4))
+        );
+        when(cartRepo.findByUserId(expectedUserId)).thenReturn(expected);
 
-        Cart actual = cartService.getCartByUserId(expectedId);
+        // When
+        Cart actual = cartService.getCartByUserId(expectedUserId);
+
+        // Then
         assertEquals(expected, actual);
     }
 
 
+
 }
+
+
+
+
+
+

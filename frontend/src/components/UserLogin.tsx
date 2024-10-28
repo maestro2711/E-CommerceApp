@@ -1,11 +1,12 @@
 import React, {useState} from "react";
 import axios from "axios";
 import {Button, Container, TextField, Typography} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 const UserLogin:React.FC = () => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-
+    const navigate=useNavigate()
     const handleLogin=()=>{
         const user={username:username,password:password};
         axios.post('api/users/login', user)
@@ -13,6 +14,7 @@ const UserLogin:React.FC = () => {
                 //Benutzername im Local Storage speichern
                 localStorage.setItem("username",response.data.username);
                 alert(`Logged in as   ${response.data.username}  `);
+                navigate('/');
             })
             .catch(error =>console.log("Error Logging in user: ", error));
     }

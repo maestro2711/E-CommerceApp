@@ -2,14 +2,13 @@ package de.neuefische.backend.services;
 
 import de.neuefische.backend.entity.Cart;
 import de.neuefische.backend.entity.CartItem;
-import de.neuefische.backend.repositories.CartItemRepository;
 import de.neuefische.backend.repositories.CartRepository;
-import de.neuefische.backend.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 @Service
@@ -29,8 +28,13 @@ public class CartService {
     public Cart addToCart(String userId, CartItem newItem) {
         Cart cart=cartRepository.findByUserId(userId);
         if(cart==null){
-            cart= new Cart(userId, List.of(newItem));
+            cart= new Cart(userId, null,List.of(newItem));
+        }else if(cart.items().contains(newItem)){
+            throw new IllegalArgumentException("Item already exists");
+
+
         }else{
+
             cart.items().add(newItem);
         }
         return cartRepository.save(cart);
@@ -41,8 +45,21 @@ public class CartService {
         if(cart==null){
             throw new IllegalArgumentException("CartItem not found");
         }
-        cart.items().removeIf(item ->item.productId().equals(updateItem.productId()));
-        cart.items().add(updateItem);
+        //Nur die Menge des Artikels aktualisieren,wenn er bereits im warenkorb ist
+        for(CartItem item: cart.items()){
+            if(item.productId().equals(updateItem.productId())){
+                cart.items().remove(item);
+                cart.items().add(item.withQuantity(updateItem.quantity()));
+
+                break;
+            }
+
+            //fehler werfen,wenn das Item nicht im Warenkorb ist
+
+
+        }
+
+
         return cartRepository.save(cart);
     }
 
