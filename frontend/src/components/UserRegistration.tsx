@@ -1,29 +1,28 @@
-import React, {useState} from "react";
-
+import React, { FormEvent, useState } from "react";
 import axios from "axios";
+import { Button, Container, TextField, Typography } from "@mui/material";
 
-import {Button, Container, TextField, Typography} from "@mui/material";
-
-
-const  UserRegistration :React.FC = ()=>{
+const UserRegistration: React.FC = () => {
     const [userName, setUserName] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    // const navigate = useNavigate();
 
-    //handleregister function erstellen
+    const handleRegister = (e: FormEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        const user = { username: userName, password };
 
-    const handleRegister=() =>{
-        const user ={username:userName, password:password}
-        axios.post("api/users/register",user)
-            .then(response =>{
-                alert(`User  ${response.data.username}  registered successfully!`);
+        axios.post("/api/users/register", user, { withCredentials: true })
+            .then(response => {
+                alert(`User ${response.data.username} registered successfully!`);
+                // navigate('/login');
             })
-            .catch(error =>console.log("Error registering user: ", error));
-        setPassword("")
-        setUserName("")
-    }
+            .catch(error => console.log("Error registering user: ", error));
 
+        setPassword("");
+        setUserName("");
+    };
 
-    return(
+    return (
         <Container>
             <Typography variant="h4" gutterBottom>
                 Register
@@ -31,24 +30,22 @@ const  UserRegistration :React.FC = ()=>{
             <TextField
                 label="Username"
                 value={userName}
-                onChange={(e)=>setUserName(e.target.value)}
+                onChange={(e) => setUserName(e.target.value)}
                 fullWidth
-                />
+            />
             <TextField
                 label="Password"
                 type="password"
                 value={password}
-                onChange={(e)=>setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 fullWidth
-                style={{marginTop:'1rem'}}
-                />
-
+                style={{ marginTop: '1rem' }}
+            />
             <Button variant="contained"
                     color="primary"
                     onClick={handleRegister}
-            style={{marginTop:'1rem'}}>Registrieren</Button>
-
+                    style={{ marginTop: '1rem' }}>Register</Button>
         </Container>
-    )
-}
+    );
+};
 export default UserRegistration;
