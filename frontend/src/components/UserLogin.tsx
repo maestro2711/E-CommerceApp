@@ -1,25 +1,33 @@
-import React, {useState} from "react";
+import React, { FormEvent, useState } from "react";
 import axios from "axios";
-import {Button, Container, TextField, Typography} from "@mui/material";
-import {useNavigate} from "react-router-dom";
+import { Button, Container, TextField, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-const UserLogin:React.FC = () => {
+interface UserLoginProps {
+    onLogin: () => void;
+}
+
+const UserLogin: React.FC<UserLoginProps> = ({onLogin}) => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const navigate=useNavigate()
-    const handleLogin=()=>{
-        const user={username:username,password:password};
-        axios.post('api/users/login', user)
-            .then(response =>{
-                //Benutzername im Local Storage speichern
-                localStorage.setItem("username",response.data.username);
-                alert(`Logged in as   ${response.data.username}  `);
+    const navigate = useNavigate();
+
+    const handleLogin = (e: FormEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        const user = { username, password };
+
+        axios.post('/api/users/login', user, { withCredentials: true })
+            .then(() => {
+
+                localStorage.setItem('username', user.username); // Benutzername speichern
+                alert('Logged in successfully');
+                onLogin();
                 navigate('/');
             })
-            .catch(error =>console.log("Error Logging in user: ", error));
-    }
+            .catch(error => console.log("Error Logging in user: ", error));
+    };
 
-    return(
+    return (
         <Container>
             <Typography variant="h4" gutterBottom>
                 Login
@@ -27,23 +35,22 @@ const UserLogin:React.FC = () => {
             <TextField
                 label="Username"
                 value={username}
-                onChange={(e)=>setUsername(e.target.value)}
+                onChange={(e) => setUsername(e.target.value)}
                 fullWidth
-                />
+            />
             <TextField
                 label="Password"
                 type="password"
-                onChange={(e)=>setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 fullWidth
-                style={{marginTop:'1rem'}}
-                />
+                style={{ marginTop: '1rem' }}
+            />
             <Button variant="contained"
                     color="primary"
                     onClick={handleLogin}
-                    style={{marginTop:'1rem'}}>Login</Button>
-
+                    style={{ marginTop: '1rem' }}>Login</Button>
         </Container>
-    )
-}
-export default UserLogin
+    );
+};
+export default UserLogin;

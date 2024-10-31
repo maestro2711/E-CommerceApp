@@ -1,69 +1,47 @@
-import React, {useEffect, useState} from "react";
-import {CartItemProps} from "../types/CartItem.ts";
+import React, { useEffect, useState } from "react";
+import { CartItemProps } from "../types/CartItem";
 import axios from "axios";
-import {Button, Container, Table, TableBody, TableCell, TableHead, TableRow, Typography} from "@mui/material";
-import CartItem from "./CartItem.tsx";
-
+import { Button, Container, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import CartItem from "./CartItem";
 
 const Cart: React.FC = () => {
-    const [cart, setCart]= useState<CartItemProps[]>([])
-    //benutzername aus LocalStorage holen
-    const username=localStorage.getItem("username")
+    const [cart, setCart] = useState<CartItemProps[]>([]);
 
     useEffect(() => {
-        if (!username){
-            alert("Please login to view your cart");
-            return;
-        }
-
-        //warenkorb vom Backend abrufen
-        axios.get(`api/cart/${username}`)
-            .then((response)=>{
+        axios.get(`/api/cart`, { withCredentials: true })
+            .then((response) => {
                 setCart(response.data.items);
             })
-            .catch(error =>{
-                console.log("Error fetching cart:" ,error)
-            })
+            .catch(error => {
+                console.log("Error fetching cart:", error);
+            });
+    }, []);
 
-
-
-
-    }, [username]);
-    const handleUpdateQuantity = (productId:number,quantity:number) => {
-        if (!username) return
-
-        axios.put(`/api/cart/${username}/update`,{
-            productId,
-            quantity,
-        })
-            .then(()=>{
+    const handleUpdateQuantity = (productId: number, quantity: number) => {
+        axios.put(`/api/cart/update`, { productId, quantity }, { withCredentials: true })
+            .then(() => {
                 setCart(cart.map(item =>
-                item.productId===productId
-                ?{...item, quantity}
-                :item))
+                    item.productId === productId
+                        ? { ...item, quantity }
+                        : item
+                ));
             })
-            .catch(error =>{
-                console.log("Error updating quantity: ",error);
+            .catch(error => console.log("Error updating quantity: ", error));
+    };
+
+    const handleRemove = (productId: number) => {
+        axios.delete(`/api/cart/remove/${productId}`, { withCredentials: true })
+            .then(() => {
+                setCart(cart.filter(item => item.productId !== productId));
             })
-    }
+            .catch(error => console.log("Error removing product from cart: ", error));
+    };
 
-    const handleRemove=(productId:number) => {
-        if (!username) return
-        axios.delete(`/api/cart/${username}/remove/${productId}`)
-            .then(()=>{
-                setCart(cart.filter(item=>item.productId!==productId))
-            })
-            .catch(error =>{
-                console.log("Error removing product from cart: ", error)
-            })
-    }
+    const getTotalPrice = () => {
+        return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    };
 
-    const getTotalPrice=() =>{
-        return cart.reduce((total, item) =>total + item.price * item.quantity, 0);
-    }
-
-
-    return(
+    return (
         <Container>
             <Typography variant="h4" gutterBottom>Cart</Typography>
             <Table>
@@ -76,18 +54,19 @@ const Cart: React.FC = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {cart.map(item =>(
+                    {cart.map(item => (
                         <CartItem
-                          key={item.productId}
-                        item={item}
-                        onUpdateQuantity={handleUpdateQuantity}
-                        onRemove={handleRemove}/>
+                            key={item.productId}
+                            item={item}
+                            onUpdateQuantity={handleUpdateQuantity}
+                            onRemove={handleRemove}
+                        />
                     ))}
                 </TableBody>
             </Table>
-            <Typography variant="h5" gutterBottom>TotalPrice: {getTotalPrice().toFixed(2)}€</Typography>
+            <Typography variant="h5" gutterBottom>Total Price: {getTotalPrice().toFixed(2)}€</Typography>
             <Button variant="contained">Checkout</Button>
         </Container>
-    )
-}
+    );
+};
 export default Cart;
