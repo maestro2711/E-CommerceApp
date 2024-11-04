@@ -4,7 +4,11 @@ import axios from "axios";
 import { Button, Container, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import CartItem from "./CartItem";
 
-const Cart: React.FC = () => {
+interface CartProps {
+    onCartClear:() =>void;
+}
+
+const Cart: React.FC<CartProps> = ({onCartClear}) => {
     const [cart, setCart] = useState<CartItemProps[]>([]);
 
     useEffect(() => {
@@ -37,6 +41,15 @@ const Cart: React.FC = () => {
             .catch(error => console.log("Error removing product from cart: ", error));
     };
 
+    const handleClearCart =()=>{
+        axios.delete("/api/cart/clear", {withCredentials:true})
+            .then(()=>{
+                setCart([])
+                onCartClear();
+            })
+            .catch(error => console.log("Error removing cart: ", error));
+    }
+
     const getTotalPrice = () => {
         return cart.reduce((total, item) => total + item.price * item.quantity, 0);
     };
@@ -64,6 +77,12 @@ const Cart: React.FC = () => {
                     ))}
                 </TableBody>
             </Table>
+            <div>
+                {/* Anzeige der einzelnen Artikel hier */}
+                <Button onClick={handleClearCart} variant="contained" color="secondary">
+                    Clear Cart
+                </Button>
+            </div>
             <Typography variant="h5" gutterBottom>Total Price: {getTotalPrice().toFixed(2)}€</Typography>
             <Button variant="contained">Checkout</Button>
         </Container>

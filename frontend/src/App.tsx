@@ -16,6 +16,7 @@ import NavBar from "./components/NavBar.tsx";
 const App: React.FC = () => {
     const [cartItemCount, setCartItemCount] = useState<number>(0);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [searchCategory, setSearchCategory] = useState<string>("");
     // Zustand für die Artikelanzahl im Warenkorb
   // const username= localStorage.getItem("username")
     // Funktion zum Hinzufügen von Artikeln zum Warenkorb und Erhöhen der Zählung
@@ -37,12 +38,26 @@ const App: React.FC = () => {
             .catch(err => console.log("Error during logout:", err));
     };
 
+    const handleSearch = (category: string) => {
+        setSearchCategory(category);
+    }
+    const handleResetSearch =()=>{
+        setSearchCategory("");
+    }
+    const handleClearCart =()=>{
+        setCartItemCount(0);
+    }
+
 
 
     return (
      <>
          <nav>
-             <NavBar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+             <NavBar isAuthenticated={isAuthenticated}
+                     onLogout={handleLogout}
+             onSearch={handleSearch}
+             onResetSearch={handleResetSearch}
+             cartItemCount={cartItemCount}/>
          </nav>
 
          {/*<nav style={{backgroundColor:'lightblue'}}>
@@ -84,8 +99,8 @@ const App: React.FC = () => {
 
 
 
-                     <Route path="/cart" element={<Cart />}/>
-                     <Route path="/" element={<ProductList onAddToCart={handleAddToCart} />} />
+                     <Route path="/cart" element={<Cart onCartClear={handleClearCart} />}/>
+                     <Route path="/" element={<ProductList onAddToCart={handleAddToCart} searchCategory={searchCategory} />} />
                      <Route path="/login" element={!isAuthenticated ? <UserLogin onLogin={() => setIsAuthenticated(true)} /> : <Navigate to="/" />} />
                      <Route path="/register" element={!isAuthenticated ? <UserRegistration /> : <Navigate to="/" />} />
 
