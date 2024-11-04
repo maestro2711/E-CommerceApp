@@ -15,9 +15,10 @@ export interface Product {
 
 interface ProductListProps {
     onAddToCart: (quantity: number) => void;
+    searchCategory:string
 }
 
-const ProductList: React.FC<ProductListProps> = ({ onAddToCart }) => {
+const ProductList: React.FC<ProductListProps> = ({ onAddToCart ,searchCategory}) => {
     const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
@@ -29,6 +30,7 @@ const ProductList: React.FC<ProductListProps> = ({ onAddToCart }) => {
                 console.log("Error fetching products:", error);
             });
     }, []);
+
 
     const handleAddToCart = (product: Product) => {
         onAddToCart(1);
@@ -49,6 +51,12 @@ const ProductList: React.FC<ProductListProps> = ({ onAddToCart }) => {
                 console.log("Error adding product to cart", error);
             });
     };
+    // Filter products based on the searchCategory
+    const filteredProducts = searchCategory
+        ? products.filter((product) =>
+            product.category.toLowerCase().includes(searchCategory.toLowerCase())
+        )
+        : products;
 
     return (
         <div style={{ padding: '20px' }}>
@@ -56,7 +64,7 @@ const ProductList: React.FC<ProductListProps> = ({ onAddToCart }) => {
                 Products
             </Typography>
             <Grid container spacing={4}>
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                     <Grid item xs={12} sm={6} md={4} key={product.id}>
                         <Card style={{ borderRadius: '10px', color: 'blue', width: '100%' }}>
                             <CardMedia
