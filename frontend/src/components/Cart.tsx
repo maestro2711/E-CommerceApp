@@ -3,6 +3,7 @@ import { CartItemProps } from "../types/CartItem";
 import axios from "axios";
 import { Button, Container, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import CartItem from "./CartItem";
+import {useNavigate} from "react-router-dom";
 
 interface CartProps {
     onCartClear:() =>void;
@@ -10,6 +11,7 @@ interface CartProps {
 
 const Cart: React.FC<CartProps> = ({onCartClear}) => {
     const [cart, setCart] = useState<CartItemProps[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`/api/cart`, { withCredentials: true })
@@ -20,6 +22,7 @@ const Cart: React.FC<CartProps> = ({onCartClear}) => {
                 console.log("Error fetching cart:", error);
             });
     }, []);
+
 
     const handleUpdateQuantity = (productId: number, quantity: number) => {
         axios.put(`/api/cart/update`, { productId, quantity }, { withCredentials: true })
@@ -84,7 +87,7 @@ const Cart: React.FC<CartProps> = ({onCartClear}) => {
                 </Button>
             </div>
             <Typography variant="h5" gutterBottom>Total Price: {getTotalPrice().toFixed(2)}€</Typography>
-            <Button variant="contained">Checkout</Button>
+            <Button onClick={() => navigate("/checkout")} variant="contained">Zur Kasse</Button>
         </Container>
     );
 };
