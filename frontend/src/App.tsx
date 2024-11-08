@@ -12,6 +12,7 @@ import UserLogin from "./components/UserLogin.tsx";
 import Cart from "./components/Cart.tsx";
 import axios from "axios";
 import NavBar from "./components/NavBar.tsx";
+import Checkout from "./components/Checkout.tsx";
 
 const App: React.FC = () => {
     const [cartItemCount, setCartItemCount] = useState<number>(0);
@@ -46,6 +47,7 @@ const App: React.FC = () => {
     }
     const handleClearCart =()=>{
         setCartItemCount(0);
+        alert("Bestellung erfolgreich")
     }
 
 
@@ -100,6 +102,7 @@ const App: React.FC = () => {
 
 
                      <Route path="/cart" element={<Cart onCartClear={handleClearCart} />}/>
+             <Route path ="/checkout" element={<Checkout onOrderPlaced={handleClearCart}/>}/>
                      <Route path="/" element={<ProductList onAddToCart={handleAddToCart} searchCategory={searchCategory} />} />
                      <Route path="/login" element={!isAuthenticated ? <UserLogin onLogin={() => setIsAuthenticated(true)} /> : <Navigate to="/" />} />
                      <Route path="/register" element={!isAuthenticated ? <UserRegistration /> : <Navigate to="/" />} />

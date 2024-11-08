@@ -32,7 +32,7 @@ public class WebSecurityConfig {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable) // Deaktiviert CSRF (nur für Testzwecke)
                 .authorizeHttpRequests(c -> {
-                    c.requestMatchers("/api/users/register", "/api/users/login","/api/users/logout","/api/users/check-session").permitAll(); // Registrierung und Login erlauben
+                    c.requestMatchers("/api/users/register", "/api/users/login","/api/users/logout","/api/users/check-session","/api/orders/place-order").permitAll(); // Registrierung und Login erlauben
                     c.anyRequest().authenticated(); // Alle anderen Anfragen authentifizieren
                 })
                 .httpBasic(Customizer.withDefaults()) // Basic Auth für API-Requests
