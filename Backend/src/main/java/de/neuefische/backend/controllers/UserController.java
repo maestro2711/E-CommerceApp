@@ -38,13 +38,9 @@ public class UserController {
 
     @PostMapping("/login")
     @Operation(summary = "Benutzer-Login", description = "Loggt einen Benutzer ein, indem der Benutzername und das Passwort bereitgestellt werden.")
-    public String loginUser(@RequestBody User user, HttpSession session) {
+    public String loginUser( ) {
         // Benutzer authentifizieren
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.username(), user.password())
-        );
-        // Benutzer nach erfolgreicher Authentifizierung in die Sitzung setzen
-        session.setAttribute("userId", ((CustomUserDetails) authentication.getPrincipal()).getId());
+
         return "Login successful";
 
     }

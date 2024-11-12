@@ -63,9 +63,9 @@ const ProductList: React.FC<ProductListProps> = ({ onAddToCart ,searchCategory})
             <Typography variant="h4" gutterBottom>
                 Products
             </Typography>
-            <Grid container spacing={4}>
+            <Grid container spacing={3}>
                 {filteredProducts.map((product) => (
-                    <Grid item xs={12} sm={6} md={4} key={product.id}>
+                    <Grid >
                         <Card style={{ borderRadius: '10px', color: 'blue', width: '100%' }}>
                             <CardMedia
                                 component="img"
@@ -96,7 +96,7 @@ const ProductList: React.FC<ProductListProps> = ({ onAddToCart ,searchCategory})
                                 </Button>
                             </CardContent>
                         </Card>
-                    </Grid>
+                   </Grid>
                 ))}
             </Grid>
         </div>
