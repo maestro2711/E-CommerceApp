@@ -16,7 +16,7 @@ const UserLogin: React.FC<UserLoginProps> = ({onLogin}) => {
         e.preventDefault();
         const user = { username, password };
 
-        axios.post('/api/users/login', user, { withCredentials: true })
+        axios.post('/api/users/login', undefined,{ auth:{username,password} })
             .then(() => {
 
                 localStorage.setItem('username', user.username); // Benutzername speichern
