@@ -35,7 +35,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: frontend-build
-          path: backend/src/main/resources/static
+          path: Backend/src/main/resources/static
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -50,7 +50,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: app.jar
-          path: backend/target/app.jar # must match the finalName in the pom.xml
+          path: Backend/target/app.jar # must match the finalName in the pom.xml
 
   push-to-docker-hub:
     runs-on: ubuntu-latest
@@ -61,7 +61,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: app.jar
-          path: backend/target
+          path: Backend/target
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
@@ -81,7 +81,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: push-to-docker-hub
     environment:
-      name: Capstone Project # Capstone Project name
+      name: E-commerceApp # Capstone Project name
       url: https://neuefische.de/ # Link to deployment
     steps:
       - name: Trigger Render.com Deployment
