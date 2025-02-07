@@ -62,24 +62,7 @@ const App: React.FC = () => {
              cartItemCount={cartItemCount}/>
          </nav>
 
-         {/*<nav style={{backgroundColor:'lightblue'}}>
-             <h1>OnlineShop</h1>
-             <div style={{display:"flex", justifyContent:"space-around"}}>
-             <Link href="/"  style={{color:'white', fontSize:'50px',textDecoration:'none'}}>ProductList</Link>
-                 <Link href={"/register"} style={{ fontSize:'50px', color: 'white',textAlign:'right', textDecoration:'none' }}>
-                     Register
-                 </Link>
-             <Link href={"/login"} style={{fontSize:'50px',textDecoration:'none',color:'white',textAlign:'right'}}><AccountCircleIcon style={{textDecoration:'none',fontSize:'50px'}}/></Link>
-             <IconButton color="inherit">
-                 <Link href={"/cart/" +username} style={{ textDecoration: 'none', color: 'white' ,fontSize:'50px'}}>
-                     <Badge badgeContent={cartItemCount} color="secondary"  >
-                         <ShoppingCartIcon  style={{textDecoration:'none',fontSize:'50px'}}/>
-                     </Badge>
-                 </Link>
-             </IconButton>
-             </div>
 
-         </nav>*/}
          <Divider />
          <div>
              <h1>Willkommen in unserem spannenden Shop 2024</h1>
@@ -89,14 +72,10 @@ const App: React.FC = () => {
 
 
 
-         {/*<Navigation/>*/}
+
 
          <Routes>
-             {/*<Route path="/" element={<ProductList onAddToCart={handleAddToCart}/>}/>
-             <Route path="/products/:id" element={<ProductItem/>}/>
-            <Route path="/register" element={<UserRegistration/>}/>
-            <Route path="/login" element={<UserLogin/>}/>
-             <Route path="/cart/:id" element={<Cart />}/>*/}
+
 
 
 
